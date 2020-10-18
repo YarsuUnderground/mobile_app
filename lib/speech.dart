@@ -12,12 +12,23 @@ class _SpeechRecScreenState extends State<SpeechRecScreen> {
 
   bool _speechRecognitionAvailable;
   bool _isListening;
-  String transcription;
+  String transcription = "";
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    _speech.listen(locale: "ru_RU").then((result) {
+      if (transcription.length > 1)
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => CreateScreen(
+              id: 0,
+            ),
+          ),
+        );
+    });
   }
 
   @override
@@ -37,22 +48,12 @@ class _SpeechRecScreenState extends State<SpeechRecScreen> {
     //_speech
     //    .activate()
     //    .then((res) => setState(() => _speechRecognitionAvailable = res));
-    _speech.listen(locale: "ru_RU").then((result) {
-      print('result : $result');
-      print(result.runtimeType);
-      if (result.length > 1)
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (BuildContext context) => CreateScreen(
-              id: 0,
-            ),
-          ),
-        );
-    });
+
     return Scaffold(
       appBar: AppBar(),
-      body: Text(transcription),
+      body: Center(
+        child: Text(transcription),
+      ),
     );
   }
 }
