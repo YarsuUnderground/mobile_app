@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_app/create.dart';
 import 'package:speech_recognition/speech_recognition.dart';
 
 class SpeechRecScreen extends StatefulWidget {
@@ -17,6 +18,10 @@ class _SpeechRecScreenState extends State<SpeechRecScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     _speech.setAvailabilityHandler(
         (bool result) => setState(() => _speechRecognitionAvailable = result));
 
@@ -29,14 +34,25 @@ class _SpeechRecScreenState extends State<SpeechRecScreen> {
     _speech.setRecognitionCompleteHandler(
         () => setState(() => _isListening = false));
 
-    _speech
-        .activate()
-        .then((res) => setState(() => _speechRecognitionAvailable = res));
-    _speech.listen(locale: "Ru").then((result) => print('result : $result'));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
+    //_speech
+    //    .activate()
+    //    .then((res) => setState(() => _speechRecognitionAvailable = res));
+    _speech.listen(locale: "ru_RU").then((result) {
+      print('result : $result');
+      print(result.runtimeType);
+      if (result.length > 1)
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => CreateScreen(
+              id: 0,
+            ),
+          ),
+        );
+    });
+    return Scaffold(
+      appBar: AppBar(),
+      body: Text(transcription),
+    );
   }
 }

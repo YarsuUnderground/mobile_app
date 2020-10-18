@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/nfc_connect.dart';
+import 'package:mobile_app/speech.dart';
 
 class MenuScreen extends StatefulWidget {
   @override
@@ -61,7 +62,14 @@ class _MenuScreenState extends State<MenuScreen> {
                   ],
                 ),
                 color: Colors.blue,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SpeechRecScreen(),
+                    ),
+                  );
+                },
                 height: 80,
               ),
             ),
