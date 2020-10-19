@@ -18,37 +18,37 @@ class _SpeechRecScreenState extends State<SpeechRecScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _speech.listen(locale: "ru_RU").then((result) {
-      if (transcription.length > 1)
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (BuildContext context) => CreateScreen(
-              id: 0,
-            ),
-          ),
-        );
-    });
-  }
 
-  @override
-  Widget build(BuildContext context) {
     _speech.setAvailabilityHandler(
         (bool result) => setState(() => _speechRecognitionAvailable = result));
 
     _speech.setRecognitionStartedHandler(
         () => setState(() => _isListening = true));
 
-    _speech.setRecognitionResultHandler(
-        (String text) => setState(() => transcription = text));
+    _speech.setRecognitionResultHandler((String text) => setState(() {
+          transcription = text;
+          if (transcription.length > 1)
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => CreateScreen(
+                  id: 0,
+                ),
+              ),
+            );
+        }));
 
     _speech.setRecognitionCompleteHandler(
         () => setState(() => _isListening = false));
+    _speech.listen(locale: "ru_RU").then(
+      (result) {
+        setState(() {});
+      },
+    );
+  }
 
-    //_speech
-    //    .activate()
-    //    .then((res) => setState(() => _speechRecognitionAvailable = res));
-
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
       body: Center(
